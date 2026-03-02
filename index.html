@@ -10,8 +10,8 @@
       margin: 0;
       background: #000;
       display: flex;
-      justify-content: center;   /* vízszint közép */
-      align-items: flex-start;   /* felül maradjon */
+      justify-content: center;
+      align-items: flex-start;
     }
 
     .wrap{
@@ -24,7 +24,7 @@
     .video{
       position: relative;
       width: 100%;
-      padding-bottom: 56.25%; /* 16:9 */
+      padding-bottom: 56.25%;
       height: 0;
     }
 
@@ -35,6 +35,20 @@
       height: 100%;
       border: 0;
     }
+
+    /* ÚJ: záró szöveg */
+    .note{
+      margin: 22px auto 40px auto;
+      max-width: 820px;
+      text-align: center;
+      line-height: 1.45;
+      font-size: 16px;
+      color: rgba(255,255,255,0.85);
+    }
+    .note p{
+      margin: 0 0 12px 0;
+    }
+    .note p:last-child{ margin-bottom: 0; }
   </style>
 </head>
 
@@ -47,6 +61,18 @@
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowfullscreen>
       </iframe>
+    </div>
+
+    <div class="note">
+      <p>Ez a történet nem azt méri,<br>hogy jó vagy rossz ember vagy.</p>
+
+      <p>Bárhova is kerültél a teszt után,<br>nem minősít.</p>
+
+      <p>A két lator is egyforma volt.</p>
+
+      <p>Csak a végső szorításban<br>másképp látták a valóságot.</p>
+
+      <p>Az egyik még menteni akarta magát.<br>A másik már vállalta a helyzetét.</p>
     </div>
   </div>
 </body>
