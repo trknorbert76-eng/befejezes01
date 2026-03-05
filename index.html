@@ -35,6 +35,7 @@ body {
   width: 100%;
   height: 100%;
   border: 0;
+  z-index: 1;
 }
 #endImage{
   position: absolute;
@@ -45,6 +46,7 @@ body {
   opacity: 0;
   transition: opacity 2s ease;
   pointer-events: none;
+  z-index: 2;
 }
 /* Záró szöveg – alapból rejtve */
 .note{
@@ -98,7 +100,8 @@ body {
 var player;
 var shown = false;
 var SHOW_AT = 90; // 1:30
-
+var END_SHOW_AT = 110; // 1:50
+var endShown = false;
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('mainVideo', {
     events: { 'onReady': onPlayerReady }
@@ -128,6 +131,7 @@ function onPlayerReady() {
 
 </body>
 </html>
+
 
 
 
