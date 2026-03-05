@@ -43,6 +43,7 @@ body {
   height: 100%;
   object-fit: cover;
   opacity: 0;
+  transition: opacity 2s ease;
   pointer-events: none;
 }
 /* Záró szöveg – alapból rejtve */
@@ -106,21 +107,28 @@ function onYouTubeIframeAPIReady() {
 
 function onPlayerReady() {
   setInterval(function () {
-    if (!player || shown) return;
+    if (!player) return;
 
     var t = 0;
     try { t = player.getCurrentTime(); } catch (e) { return; }
 
-    if (t >= SHOW_AT) {
+    if (!shown && t >= SHOW_AT) {
       document.getElementById("closingText").classList.add("show");
       shown = true;
     }
+
+    if (!endShown && t >= END_SHOW_AT) {
+      document.getElementById("endImage").style.opacity = 1;
+      endShown = true;
+    }
+
   }, 500);
 }
 </script>
 
 </body>
 </html>
+
 
 
 
