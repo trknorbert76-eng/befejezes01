@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Befejezés 01</title>
+<title>Befejezés – Jobb oldal</title>
 
 <style>
 html, body { height: 100%; }
@@ -25,18 +25,17 @@ body {
 .video{
   position: relative;
   width: 100%;
-  padding-bottom: 56.25%;
-  height: 0;
 }
 
-.video iframe{
-  position: absolute;
-  inset: 0;
+#mainVideo{
   width: 100%;
-  height: 100%;
-  border: 0;
+  height: auto;
+  display: block;
+  position: relative;
   z-index: 1;
+  background: #000;
 }
+
 #endImage{
   position: absolute;
   inset: 0;
@@ -48,6 +47,7 @@ body {
   pointer-events: none;
   z-index: 2;
 }
+
 /* Záró szöveg – alapból rejtve */
 .note{
   margin: 30px auto 40px auto;
@@ -73,13 +73,10 @@ body {
 
 <div class="wrap">
   <div class="video">
-    <iframe
-      id="mainVideo"
-     src="https://www.youtube.com/embed/uTnuai6KTXM?enablejsapi=1&autoplay=1&rel=0"
-      allow="autoplay; encrypted-media"
-      allowfullscreen>
-    </iframe>
-    <img id="endImage" src="jezus.png">
+    <video id="mainVideo" controls autoplay playsinline>
+      <source src="https://res.cloudinary.com/dgcumjeuj/video/upload/v1774558015/T%C3%B6r%C3%B6k_Norbert_az_%C3%ADr%C3%A1s_befejez%C3%A9s_01_wby4qs.mp4" type="video/mp4">
+    </video>
+    <img id="endImage" src="jezus.png" alt="">
   </div>
 
   <div id="closingText" class="note">
@@ -95,46 +92,71 @@ body {
   </div>
 </div>
 
-<script src="https://www.youtube.com/iframe_api"></script>
 <script>
-var player;
-var shown = false;
-var SHOW_AT = 90; // 1:30
-var END_SHOW_AT = 110; // 1:50
-var endShown = false;
-function onYouTubeIframeAPIReady() {
-  player = new YT.Player('mainVideo', {
-    events: { 'onReady': onPlayerReady }
-  });
+const SUPABASE_URL = "https://hhysuxfwdjwlxtmlxnrv.supabase.co";
+const SUPABASE_KEY = "sb_publishable_4Btoi0wsypr48xQH31RMaQ_r1YrPpsv";
+
+async function track(event){
+  try{
+    await fetch(SUPABASE_URL + "/rest/v1/jesus_stats", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_KEY,
+        "Authorization": "Bearer " + SUPABASE_KEY,
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify({ event })
+    });
+  }catch(e){}
 }
 
-function onPlayerReady() {
-  setInterval(function () {
-    if (!player) return;
+const video = document.getElementById("mainVideo");
+const closingText = document.getElementById("closingText");
+const endImage = document.getElementById("endImage");
 
-    var t = 0;
-    try { t = player.getCurrentTime(); } catch (e) { return; }
+const SHOW_AT = 90;      // 1:30
+const END_SHOW_AT = 110; // 1:50
 
-    if (!shown && t >= SHOW_AT) {
-      document.getElementById("closingText").classList.add("show");
-      shown = true;
-    }
+let started = false;
+let textShown = false;
+let endShown = false;
+let endedTracked = false;
 
-    if (!endShown && t >= END_SHOW_AT) {
-      document.getElementById("endImage").style.opacity = 1;
-      endShown = true;
-    }
+// oldal betöltés
+track("video_page_right");
 
-  }, 500);
-}
+// videó indítás
+video.addEventListener("play", () => {
+  if (!started) {
+    track("video_start_right");
+    started = true;
+  }
+});
+
+// időzített események
+video.addEventListener("timeupdate", () => {
+  if (!textShown && video.currentTime >= SHOW_AT) {
+    closingText.classList.add("show");
+    track("video_text_right");
+    textShown = true;
+  }
+
+  if (!endShown && video.currentTime >= END_SHOW_AT) {
+    endImage.style.opacity = 1;
+    track("video_endimage_right");
+    endShown = true;
+  }
+});
+
+// tényleges videó vége
+video.addEventListener("ended", () => {
+  if (!endedTracked) {
+    track("video_finish_right");
+    endedTracked = true;
+  }
+});
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
