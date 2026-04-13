@@ -73,7 +73,7 @@ body {
 
 <div class="wrap">
   <div class="video">
-    <video id="mainVideo" controls autoplay playsinline>
+    <video id="mainVideo" controls playsinline>
       <source src="https://vz-607e77fc-703.b-cdn.net/3a9fc8bb-f848-4863-8a85-d529fc46183f/playlist.m3u8" type="application/x-mpegURL">
     </video>
     <img id="endImage" src="jezus.png" alt="">
@@ -155,7 +155,12 @@ video.addEventListener("ended", () => {
     track("video_finish_right");
     endedTracked = true;
   }
+  window.addEventListener("load", () => {
+  setTimeout(() => {
+    video.play().catch(() => {});
+  }, 300);
 });
+
 </script>
 
 </body>
